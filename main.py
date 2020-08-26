@@ -2,6 +2,7 @@
 
 from core.image import Image
 from correlogram import specific_correlogram
+from utils import dominant_colors
 
 def print_result(func):
   def inner(*args, **kargs):
@@ -16,7 +17,10 @@ def main():
   img = Image('imgs/luffy.jpg')
   p1 = img.pixelAt(5, 6)
   p2 = img.pixelAt(3, 9)
-  return specific_correlogram(img, p1.color, p2.color, 5)
+  
+  return dominant_colors.get_dominant_colors(img, 20)
+
+  # return specific_correlogram(img, p1.color, p2.color, 5)
 
 
 if __name__ == "__main__":
