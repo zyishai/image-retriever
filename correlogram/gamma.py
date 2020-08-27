@@ -3,7 +3,7 @@ from correlogram.lambda_calc import horizontal_lambda, vertical_lambda
 # Total running complexity O(4D(N^2)) -> O(D(N^2)). read ahead to understand why.
 def gamma(image, src_color, target_color, distance):
   sum = 0
-  for pixel in image.ofColor(src_color): # O(N^2) if image size is NxN. Generally, NxM.
+  for pixel in image.of_color(src_color): # O(N^2) if image size is NxN. Generally, NxM.
     # O(D) for each sum+=... line, where distance=D
     sum += vertical_lambda(pixel + (-distance, -distance + 1), target_color, 2 * distance - 2)
     sum += horizontal_lambda(pixel + (-distance, -distance), target_color, 2 * distance)
