@@ -6,7 +6,9 @@ def get_dominant_colors(image, quantity):
     '''
       Description: get the top <quantity> rgb colors of the given image
     '''
-    a1D = np.ravel_multi_index(image.flat_image.T, col_range)
+    cv_image = image.image
+    flat = cv_image.reshape(-1, cv_image.shape[-1])
+    a1D = np.ravel_multi_index(flat.T, col_range)
 
     count_array = np.bincount(a1D)
     

@@ -7,6 +7,7 @@ ipython-genutils==0.2.0
 jedi==0.17.2
 jupyter-client==6.1.6
 jupyter-core==4.6.3
+numexpr==2.7.1
 numpy==1.19.1
 opencv-python==4.4.0.42
 parso==0.7.1

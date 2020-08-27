@@ -1,12 +1,22 @@
 class Color:
-  def __init__(self, *colors):
-    self.red = colors[0]
-    self.green = colors[1]
-    self.blue = colors[2]
+  def __init__(self, *channels):
+    self.blue = channels[0]
+    self.green = channels[1]
+    self.red = channels[2]
   
-  def unpack(self):
-    return (self.red, self.green, self.blue)
-  
+  def unpack(self, format="bgr"):
+    color_format_dict = {
+      'r': self.red,
+      'g': self.green,
+      'b': self.blue
+    }
+    
+    result = []
+    for channel in format:
+      result.append(color_format_dict[channel])
+    
+    return tuple(result)
+
   def __eq__(self, other):
     return (
       self.red == other.red and

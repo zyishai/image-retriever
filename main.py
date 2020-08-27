@@ -4,23 +4,13 @@ from core.image import Image
 from correlogram import specific_correlogram
 from utils import dominant_colors
 
-def print_result(func):
-  def inner(*args, **kargs):
-    print("Calculating...")
-    result = func(*args, **kargs)
-    print(f"Result: {result}")
-  return inner
-
-@print_result
 def main():
-  # Example run. Result: 0.04375
   img = Image('imgs/luffy.jpg')
-  p1 = img.pixelAt(5, 6)
-  p2 = img.pixelAt(3, 9)
-  
-  return dominant_colors.get_dominant_colors(img, 20)
-
-  # return specific_correlogram(img, p1.color, p2.color, 5)
+  p1 = img.pixel_at(15, 69)
+  print(p1.color.unpack(format="rgb"))
+  print(dominant_colors.get_dominant_colors(img, 20))
+  print("\nPress ENTER or any key to close the preview")
+  p1.DEBUG_display_on_image()
 
 
 if __name__ == "__main__":
