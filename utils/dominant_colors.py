@@ -2,8 +2,6 @@ import numpy as np
 import cv2
 from sklearn.cluster import KMeans
 
-col_range = (256, 256, 256)
-
 
 def get_dominant_colors(image, quantity):
     '''
