@@ -9,7 +9,7 @@ class Image:
     return (self.rows, self.columns)
 
   def pixel_at(self, col, row) -> Pixel: # col=x, row=y
-    if row >= len(self.source[0]) or col >= len(self.source) or row < 0 or col < 0:
+    if row >= len(self.source) or col >= len(self.source[0]) or row < 0 or col < 0:
       return None
     return Pixel(self, col, row, self.source[row][col])
 
