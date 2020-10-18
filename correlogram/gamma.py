@@ -1,14 +1,27 @@
+import multiprocessing as mp
+from functools import reduce
 from correlogram.lambda_calc import horizontal_lambda, vertical_lambda
+from utils.log import log_time
 
-# Total running complexity O(4D(N^2)) -> O(D(N^2)). read ahead to understand why.
+# Total running complexity O(4D(N^2)) -> O(D(N^2)).
+@log_time
 def gamma(pixels, src_color, target_color, distance):
   sum = 0
+  print(f'Found {len(pixels)} pixels.')
 
-  for pixel in pixels: # O(N^2) if image size is NxN. Generally, NxM.
-    # O(D) for each sum+=... line, where distance=D
-    sum += vertical_lambda(pixel + (-distance, -distance + 1), target_color, 2 * distance - 2)
-    sum += horizontal_lambda(pixel + (-distance, -distance), target_color, 2 * distance)
-    sum += horizontal_lambda(pixel + (-distance, distance), target_color, 2 * distance)
-    sum += vertical_lambda(pixel + (distance, -distance + 1), target_color, 2 * distance - 2)
+  q = mp.Queue()
+
+  def cb(lambda_sum):
+    q.put(lambda_sum)
+
+  with mp.Pool(mp.cpu_count() - 1) as p:
+    p.starmap_async(vertical_lambda, map(lambda pixel: (pixel, distance), pixels), callback=cb)
+    p.starmap_async(horizontal_lambda, map(lambda pixel: (pixel, distance), pixels), callback=cb)
+    p.close()
+    p.join()
+  
+  while not q.empty():
+    results = q.get()
+    sum += reduce(lambda a, b: a + b, results)
   
   return sum
