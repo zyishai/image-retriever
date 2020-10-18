@@ -1,4 +1,4 @@
-from correlogram.lambda_calc import horizontal_lambda, vertical_lambda
+from core.lambda_calc import horizontal_lambda, vertical_lambda
 from utils.log import log_time
 
 # Total running complexity O(4D(N^2)) -> O(D(N^2)).
