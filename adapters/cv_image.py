@@ -1,6 +1,6 @@
 from cv2 import imread, imshow, waitKey, destroyAllWindows
 from numpy import copy as np_copy, array as np_array, uint8
-from core.image import Image
+from entities.image import Image
 from utils.cluster import get_cluster
 
 class OpenCVImage(Image):

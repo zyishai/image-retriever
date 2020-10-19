@@ -1,4 +1,4 @@
-from core.pixel import Pixel
+from entities.pixel import Pixel
 
 class Image:
   def __init__(self, img):
