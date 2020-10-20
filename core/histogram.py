@@ -11,5 +11,6 @@ def get_offsets(source_image: Image, query_image: Image):
 
   return product(range(x_offsets), range(y_offsets)) # returns: [(x1, y1) ... (xn, yn)]
 
+# Eq. (25)-(26)
 def hist_contribution(sub_image, query_image): # images should be in *histogramic* representation.
   return np_sum(minimum(nan_to_num(sub_image / query_image), 1))
