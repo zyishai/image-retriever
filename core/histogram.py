@@ -1,5 +1,5 @@
 from itertools import product
-from numpy import sum as np_sum, nan_to_num
+from numpy import sum as np_sum, nan_to_num, minimum
 from entities.image import Image
 
 def get_offsets(source_image: Image, query_image: Image):
@@ -12,4 +12,4 @@ def get_offsets(source_image: Image, query_image: Image):
   return product(range(x_offsets), range(y_offsets)) # returns: [(x1, y1) ... (xn, yn)]
 
 def hist_contribution(sub_image, query_image): # images should be in *histogramic* representation.
-  return np_sum(nan_to_num(sub_image / query_image))
+  return np_sum(minimum(nan_to_num(sub_image / query_image), 1))
