@@ -5,6 +5,7 @@ class Pixel:
     self.y = y
     self.color = label
 
+  # these 3 methods not in use currently
   def __eq__(self, other):
     return (
       self.x == other.x and 

@@ -3,7 +3,7 @@ from utils.log import log_time
 
 # Total running complexity O(4D(N^2)) -> O(D(N^2)).
 @log_time
-def gamma(pixels, src_color, target_color, distance): # Eq. (10)
+def gamma(pixels, distance): # Eq. (10)
   sum = 0
 
   for pixel in pixels:
