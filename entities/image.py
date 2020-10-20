@@ -20,3 +20,8 @@ class Image:
         if color == target_color:
           pixels.append(Pixel(self, col_index, row_index, color))
     return pixels
+
+  def flatten(self):
+    if not hasattr(self, '_flat'):
+      self._flat = self.source.reshape(-1)
+    return self._flat

@@ -1,11 +1,16 @@
-from fast_histogram import histogram1d
-from numpy import uint
+from itertools import product
+from numpy import sum as np_sum, nan_to_num, minimum
+from entities.image import Image
 
-def ratio_histogram(image, query_image, color):
-  Q = histogram_for(query_image)[color]
-  I = histogram_for(image)[color]
-  return min(Q / I, 1)
+def get_offsets(source_image: Image, query_image: Image):
+  source_height, source_width = source_image.source.shape
+  query_height, query_width = query_image.source.shape
 
-def histogram_for(image):
-  # NOTE: `bins` and `range` hardcoded!
-  return histogram1d(image, bins=8, range=[0,7]).astype(uint) / image.size
+  x_offsets = source_width - query_width
+  y_offsets = source_height - query_height
+
+  return product(range(x_offsets), range(y_offsets)) # returns: [(x1, y1) ... (xn, yn)]
+
+# Eq. (25)-(26)
+def hist_contribution(sub_image, query_image): # images should be in *histogramic* representation.
+  return np_sum(minimum(nan_to_num(sub_image / query_image), 1))

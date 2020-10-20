@@ -8,3 +8,6 @@ def get_cluster(image, quantity):
     kmeans.fit(pixels)
 
     return kmeans
+
+def apply_cluster(image, cluster):
+    return cluster.predict(image.reshape(-1, 3))

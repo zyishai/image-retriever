@@ -1,3 +1,4 @@
+# Eq. (13)
 def vertical_lambda(pixel, distance): # like horizontal_lambda but in an imperative style.
   sum = 0
   for i in range(0, 2 * distance - 1): # 0 ... 2k-2 times
@@ -10,7 +11,7 @@ def vertical_lambda(pixel, distance): # like horizontal_lambda but in an imperat
       sum += int(pixel.color == pixel.image.source[y_index][pixel.x + distance])
 
   return sum
-
+# Eq. (12)
 def horizontal_lambda(pixel, distance): # like horizontal_lambda but in an imperative style.
   sum = 0
   for i in range(0, 2 * distance + 1): # 0 ... 2k times
