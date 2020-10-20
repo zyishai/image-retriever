@@ -1,23 +1,40 @@
 from cv2 import imread, imshow, waitKey, destroyAllWindows
-from numpy import copy as np_copy, array as np_array, uint8
+from numpy import copy as np_copy, array as np_array, uint8, isnan
+from fast_histogram import histogram1d
 from entities.image import Image
-from utils.cluster import get_cluster
+from utils.cluster import get_cluster, apply_cluster
 
 class OpenCVImage(Image):
-  def __init__(self, path):
-    self.cv_image = imread(path)
-    self.cluster = get_cluster(self.cv_image, 8)
-    numeric_repr = np_copy(self.cluster.labels_)
-    super().__init__(numeric_repr.reshape(self.cv_image.shape[:-1]))
+  def __init__(self, path, cluster = None):
+    self.cv_image = imread(path) # load image from disk.
+
+    numeric_repr = self._set_cluster(cluster) # flat.
+    
+    super().__init__(numeric_repr.reshape(self.cv_image.shape[:-1])) # initialize parent class.
+
+    self._set_histogram() # calculate `histogram` property. 2d array.
+
+  def _set_cluster(self, cluster=None):
+    if cluster is None:
+      self.cluster = get_cluster(self.cv_image, 8)
+      return np_copy(self.cluster.labels_)
+    else:
+      self.cluster = cluster
+      return apply_cluster(self.cv_image, self.cluster)
+    
+  def _set_histogram(self):
+    hist_values = histogram1d(self.source, bins=8, range=[0, 8])
+    def to_hist_value(color):
+      return hist_values[color]
+
+    self.histogram = to_hist_value(self.source)
 
   def show_simplified(self):
-    colors = self.cluster.cluster_centers_.astype(int)
-    numeric_repr = np_copy(self.cluster.labels_)
-    colored_flat_repr = np_array([
-        colors[cell]
-        for idx, cell in enumerate(numeric_repr)
-    ], dtype=uint8)
-    displayed_image = colored_flat_repr.reshape(self.cv_image.shape)
+    colors = self.cluster.cluster_centers_.astype(uint8)
+    def to_color(cell):
+      return colors[cell]
+
+    displayed_image = to_color(self.source)
     imshow('Simplified Colored Image', displayed_image)
     waitKey(0)
     destroyAllWindows()
