@@ -29,9 +29,13 @@ class OpenCVImage(Image):
 
     self.histogram = np_array(to_hist_value(self.source))
 
-  def get_sub_image(self, offset, width, height):
+  def get_hist_sub_image(self, offset, width, height):
     x, y = offset
     return self.histogram[y:y+height, x:x+width]
+
+  def get_sub_image(self, offset, width, height):
+    x, y = offset
+    return Image(self.source[y:y+height, x:x+width])
 
   def show_simplified(self):
     colors = self.cluster.cluster_centers_.astype(uint8)
