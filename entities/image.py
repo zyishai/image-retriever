@@ -1,4 +1,5 @@
 from entities.pixel import Pixel
+from numpy import where
 
 class Image:
   def __init__(self, img):
@@ -14,12 +15,9 @@ class Image:
     return Pixel(self, col, row, self.source[row][col])
 
   def of_color(self, target_color):
-    pixels = []
-    for row_index, row in enumerate(self.source):
-      for col_index, color in enumerate(row):
-        if color == target_color:
-          pixels.append(Pixel(self, col_index, row_index, color))
-    return pixels
+    temp = where(self.source == target_color)
+    indices = zip(temp[1], temp[0]) # [(x1, y1) ... (xn, yn)]
+    return map(lambda index: Pixel(self, index[0], index[1], target_color), indices)
 
   def flatten(self):
     if not hasattr(self, '_flat'):
