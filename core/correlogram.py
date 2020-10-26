@@ -2,7 +2,7 @@ from core.gamma import gamma
 
 # Eq. (3) & (11)
 def autocorrelogram(image, color, distance):
-  pixels = image.of_color(color)
+  pixels = image.of_color(color) # (y, x)
   numerator = gamma(pixels, distance)
   denominator = len(pixels) * 8 * distance
 
@@ -10,7 +10,7 @@ def autocorrelogram(image, color, distance):
 
 # Eq. (29)
 def local_autocorrelogram(image, color, distance):
-  pixels = image.of_color(color)
+  pixels = image.of_color(color) # (y, x)
   numerator = gamma(pixels, distance)
   denominator = 8 * distance
 
