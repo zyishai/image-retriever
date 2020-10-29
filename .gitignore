@@ -131,3 +131,4 @@ dmypy.json
 # misc
 test.py
 .DS_Store
+foo.*
