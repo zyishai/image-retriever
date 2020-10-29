@@ -1,8 +1,6 @@
-from numpy import concatenate, where, maximum
-from utils.log import log_time
+from numpy import concatenate, where, maximum, isin
 
 # Total running complexity O(4D(N^2)) -> O(D(N^2)).
-# @log_time
-def gamma(pixels, distance):
+def gamma(pixels, distance_set):
   dist = concatenate(list(map(lambda pixel: abs(pixels - pixel), pixels)))
-  return len(where(maximum(dist[:, 0], dist[:, 1]) == distance))
+  return len(where(isin(maximum(dist[:, 0], dist[:, 1]), distance_set))[0])
