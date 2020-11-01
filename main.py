@@ -1,21 +1,18 @@
 #! /Users/yishaizehavi/.virtualenvs/cv/bin/python3
 
-from core.correlogram import autocorrelogram
-from utils.colors import get_unique_colors
+from core import locate
 from adapters.cv_image import OpenCVImage
-from utils.log import log_time
-
-import cv2 as cv
+from utils.image import draw_rect
+from utils.decorators import log_time
 
 @log_time
 def main():
-  luffy = OpenCVImage('imgs/luffy_small.jpg')
-  colors = get_unique_colors(luffy)
-  
-  # This code runs for ~2.5 secs for `luffy_small.jpg` and for ~10.6 secs for `luffy.jpg`.
-  for color in colors:
-    for i in range(1, 9):
-      print(autocorrelogram(luffy, color, i))
+  image = OpenCVImage('imgs/luffy.jpg')
+  template = OpenCVImage('imgs/luffy2_small.jpg', cluster=image.cluster)
+
+  max_contribution, max_offset = locate(image, template)
+  print(f'Max contribution: {max_contribution} at {max_offset}.')
+  draw_rect(image.cv_image, max_offset, template.dimensions())
 
 if __name__ == "__main__":
   main()
