@@ -1,15 +1,20 @@
 from timeit import default_timer
 from functools import wraps, update_wrapper
 
-def log_time(fn):
-  @wraps(fn)
-  def run(*args, **kargs):
-    start = default_timer()
-    result = fn(*args, **kargs)
-    print(f'{fn.__name__} runs: {default_timer() - start:.10f} secs.')
-    return result
-  
-  return run
+def log_time():
+  def helper(fn):
+    runs = []
+    @wraps(fn)
+    def run(*args, **kargs):
+      start = default_timer()
+      result = fn(*args, **kargs)
+      runs.append(default_timer() - start)
+      # print(f'{fn.__name__} runs: {default_timer() - start:.10f} secs.')
+      return result
+    run.call_count = lambda: len(runs)
+    run.avg_run_time = lambda: sum(runs) / len(runs)
+    return run
+  return helper
 
 def memoize(fn):
   memo = {}
