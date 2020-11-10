@@ -1,14 +1,14 @@
 #! /Users/yishaizehavi/.virtualenvs/cv/bin/python3
 
 from core import locate
-from adapters.cv_image import OpenCVImage
+from entities import Image
 from utils.image import draw_rect
 from utils.decorators import log_time
 
 @log_time()
 def main():
-  image = OpenCVImage('imgs/luffy.jpg')
-  template = OpenCVImage('imgs/luffy2_small.jpg', cluster=image.cluster)
+  image = Image('imgs/biden1.jpg')
+  template = Image('imgs/biden2_small.jpg', cluster=image.cluster)
 
   max_contribution, max_offset = locate(image, template)
 
