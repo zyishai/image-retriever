@@ -4,8 +4,7 @@ from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 import tempfile
 
-
-from adapters.cv_image import OpenCVImage
+from entities import Image
 from core import locate
 
 app = Flask(__name__)
@@ -27,8 +26,8 @@ def upload_file():
         query_image.save(os.path.join(directory, query_filename))
 
 
-        image = OpenCVImage(os.path.join(directory, filename))
-        template = OpenCVImage(os.path.join(directory, query_filename), cluster=image.cluster)
+        image = Image(os.path.join(directory, filename))
+        template = Image(os.path.join(directory, query_filename), cluster=image.cluster)
 
         max_contribution, max_offset = locate(image, template)
 
